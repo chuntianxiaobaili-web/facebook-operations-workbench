@@ -1,0 +1,24 @@
+import {mkdtemp} from 'node:fs/promises';
+import {join} from 'node:path';
+import {tmpdir} from 'node:os';
+import {spawn} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import {runtime} from './lib/runtime.mjs';
+const data=await mkdtemp(join(tmpdir(),'fbops-demo-')),call=await runtime(data),tenant='demo';
+const act=(a,p)=>call(tenant,a,p);
+await act('profile',{name:'示例 · 栖光陈列',industry:'商业空间陈列',offer:'可重复搭建的展示组件',audience:'零售空间负责人',market:'澳大利亚',language:'英语',identity:'品牌运营组',goal:'每周辨认有明确项目的选型询问'});
+const g=await act('group',{name:'示例 · 陈列同行讨论',kind:'third_party',url:'https://www.facebook.com/groups/10000000001/',rules:'示例群规：欢迎讨论光线与材质，商业链接须经管理员同意。'});
+const q=await act('interaction',{externalId:'fixture-question',text:'如何对比暖光和自然光下的样品？',direction:'inbound',category:'question',channel:'page_comment',sourceUrl:'https://www.facebook.com/10000000001/posts/20000000001',signal:'weak',origin:'organic'});
+await act('interaction',{externalId:'fixture-inquiry',text:'我们有四家门店要换陈列，能看两种尺寸的样品吗？',direction:'inbound',category:'sample_request',channel:'messenger',sourceUrl:'https://business.facebook.com/latest/inbox/all?asset_id=10000000001',signal:'strong',evidence:'四家门店提出具体索样请求。',stage:'inquiry',companyName:'示例 · 南湾门店',nextAction:'确认陈列架可用宽度。'});
+const post=await act('content',{surface:'page',title:'怎样比较两种灯光下的展示样品',body:'比较同一件样品时，固定背景和拍摄距离，再换灯。你准备把样品放在哪一种光线下？',intent:'回答买家真实问题',assetRights:'原创建议文本',sourceInteractionId:q.id});
+await act('content',{id:post.id,status:'approved'});
+await act('content',{id:post.id,status:'scheduled',scheduledAt:new Date(Date.now()+48*3600000).toISOString()});
+await act('content',{surface:'profile',title:'我在门店记录光照时先看什么',body:'给作者的采访稿：请补一条自己确实做过的现场观察，再写记录方法。',sourceInteractionId:q.id});
+await act('content',{surface:'group',groupId:g.id,title:'同行问答 · 怎样把两张对比图拍得可比较',body:'建议用同一块背景，固定距离，用相同角度拍两张。你更关心色差还是反光？',sourceInteractionId:q.id});
+const lesson=await act('learning',{title:'在讨论色差时记录拍摄条件',method:'发布对比图时写明背景和光源，再邀请读者说明实际场景。',scope:'实体展示用品；只适用于对比实摄。',evidence:[q.id,post.id],limits:'虚构示例，尚无销售结果。'});
+await act('review',{id:lesson.id,decision:'accept',reason:'演示如何归档经验。'});
+console.log('演示客户使用独立临时目录 '+data);
+if(process.argv.includes('--data-only'))process.exit(0);
+const child=spawn(process.execPath,[fileURLToPath(new URL('run.mjs',import.meta.url)),'--data',data,'--port','4336','--tenant',tenant,'--open'],{stdio:'inherit'});
+child.on('exit',code=>process.exit(code??1));
+

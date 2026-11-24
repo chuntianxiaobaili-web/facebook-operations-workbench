@@ -1,0 +1,13 @@
+node_modules/
+.env
+.env.*
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+*.log
+.facebook-operations-workbench/
+tenants/
+data/
+.DS_Store
+Thumbs.db

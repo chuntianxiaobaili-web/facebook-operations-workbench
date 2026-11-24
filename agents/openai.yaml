@@ -1,0 +1,5 @@
+interface:
+  display_name: "Facebook 代运营与社交获客工作台"
+  short_description: "管理多行业客户的公共主页、个人主页与群组，跟踪内容、询盘、销售回执与知识复盘"
+  default_prompt: "使用 $facebook-operations-workbench 为当前客户整理本周的内容、采购信号、销售交接和知识复盘。"
+

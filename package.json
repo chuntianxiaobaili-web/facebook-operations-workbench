@@ -1,0 +1,16 @@
+{
+  "name": "facebook-operations-workbench",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "repository": "github:chuntianxiaobaili-web/facebook-operations-workbench",
+  "type": "module",
+  "description": "Cross-industry Facebook operations, lead handoff and Obsidian learning",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "start": "node run.mjs",
+    "test": "node --test"
+  }
+}

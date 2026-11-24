@@ -1,0 +1,21 @@
+{
+  "name": "facebook-operations-ui",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "node build.cjs"
+  },
+  "dependencies": {
+    "@astryxdesign/core": "0.7.17",
+    "@astryxdesign/theme-neutral": "0.7.17",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "@stylexjs/stylex": "0.19.2"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "@babel/core": "7.28.5",
+    "@stylexjs/babel-plugin": "0.19.2"
+  }
+}
